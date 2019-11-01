@@ -7,7 +7,10 @@ const path = require('path')
 const app = express()
 app.use(express.static(path.resolve(__dirname, './dist')))
 
-const template = require('fs').readFileSync(path.resolve(__dirname, './public/index.html'), 'utf-8')
+const template = require('fs').readFileSync(
+  path.resolve(__dirname, './public/index.html'),
+  'utf-8'
+)
 const serverBundle = require('./dist/vue-ssr-server-bundle.json')
 const clientManifest = require('./dist/vue-ssr-client-manifest.json')
 const renderer = createBundleRenderer(serverBundle, {
@@ -23,4 +26,6 @@ app.get('*', (req, res) => {
   })
 })
 
-app.listen(8080)
+app.listen(8080, () => {
+  console.log('启动8080')
+})

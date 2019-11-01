@@ -7,6 +7,11 @@ module.exports = {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, '../dist')
   },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, '../src/')
+    }
+  },
   module: {
     rules: [
       {
@@ -17,23 +22,14 @@ module.exports = {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-            plugins: ['@babel/transform-runtime']
-          }
+          loader: 'babel-loader'
         }
       },
       {
         test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          'css-loader'
-        ]
+        use: ['vue-style-loader', 'css-loader']
       }
     ]
   },
-  plugins: [
-    new VueLoaderPlugin()
-  ]
+  plugins: [new VueLoaderPlugin()]
 }
