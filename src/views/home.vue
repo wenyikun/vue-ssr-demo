@@ -2,7 +2,7 @@
   <div>
     {{ title }} : {{ path }}
     <p>
-      <router-link to="/test">测试页</router-link>
+      <router-link to="/test">测试页2222</router-link>
     </p>
   </div>
 </template>
@@ -20,6 +20,16 @@ export default {
     path() {
       return this.$store.state.path;
     }
+  },
+  mounted() {
+    this.$store.commit("setTitle", "首页");
+    this.$store.commit("setPath", this.$route.path);
   }
 };
 </script>
+
+<style>
+div {
+  color: #f00;
+}
+</style>
