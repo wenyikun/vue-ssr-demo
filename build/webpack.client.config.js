@@ -8,7 +8,7 @@ const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 
 module.exports = merge(base, {
   entry: {
-    client: ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000', path.resolve(__dirname, '../src/entry-client.js')]
+    client: ['webpack-hot-middleware/client', path.resolve(__dirname, '../src/entry-client.js')]
   },
   output: {
     filename: "js/[name].[hash:7].js",

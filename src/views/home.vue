@@ -11,8 +11,8 @@
     <img class="saturate" src="@/assets/1.jpg" />
     <img class="sepia" src="@/assets/1.jpg" />
     <img class="shadow" src="@/assets/1.jpg" />
-    <img src="@/assets/back.png" />
-    <img src="@/assets/logo.png" />
+    <!-- <img src="@/assets/back.png" />
+    <img src="@/assets/logo.png" /> -->
   </div>
 </template>
 

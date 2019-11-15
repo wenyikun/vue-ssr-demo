@@ -13,7 +13,7 @@ const instance = webpackDevMiddleware(clientCompiler, {
   serverSideRender: true
 })
 app.use(instance)
-webpackHotMiddleware(clientCompiler)
+app.use(webpackHotMiddleware(clientCompiler))
 serverCompiler.run()
 // const watch = compiler => {
 //   return new Promise((resolve, reject) => {
