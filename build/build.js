@@ -1,9 +1,9 @@
-const webpack = require("webpack");
-const del = require("del");
+const webpack = require('webpack')
+const del = require('del')
 // const webpackDevMiddleware = require('webpack-dev-middleware')
 // const config = require('./webpack.base.config')
-const clientCompiler = webpack(require("./webpack.client.config"));
-const serverCompiler = webpack(require("./webpack.server.config"));
+const clientCompiler = webpack(require('./webpack.client.config'))
+const serverCompiler = webpack(require('./webpack.server.config'))
 
 // app.use(webpackDevMiddleware(clientCompiler, {
 //   publicPath: config.output.publicPath
@@ -19,12 +19,12 @@ const watch = compiler => {
           children: false,
           chunks: false,
           chunkModules: false
-        }) + "\n\n"
-      );
-      resolve();
-    });
-  });
-};
+        }) + '\n\n'
+      )
+      resolve()
+    })
+  })
+}
 
 const run = compiler => {
   return new Promise((resolve, reject) => {
@@ -36,19 +36,21 @@ const run = compiler => {
           children: false,
           chunks: false,
           chunkModules: false
-        }) + "\n\n"
-      );
-      resolve();
-    });
-  });
-};
+        }) + '\n\n'
+      )
+      resolve()
+    })
+  })
+}
 
-if (process.env.NODE_ENV === "production") {
-  del.sync(["dist"]);
-  run(clientCompiler);
-  run(serverCompiler);
+if (process.env.NODE_ENV === 'production1') {
+  del.sync(['dist'])
+  run(clientCompiler).then(() => {
+    process.env.NODE_ENV = ''
+    run(serverCompiler)
+  })
 } else {
   Promise.all([watch(clientCompiler), watch(serverCompiler)]).then(() => {
-    require("../server");
-  });
+    require('../server')
+  })
 }

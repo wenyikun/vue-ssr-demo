@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node build/build.js",
     "start": "node ./server.js",
-    "build": "cross-env NODE_ENV=production node build/build.js"
+    "build": "cross-env NODE_ENV=production1 node build/build.js"
   },
   "author": "",
   "license": "ISC",
