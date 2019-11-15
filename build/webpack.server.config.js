@@ -10,6 +10,7 @@ module.exports = merge(base, {
   },
   target: 'node',
   output: {
+    path: path.resolve(__dirname, "../dist/server"),
     libraryTarget: 'commonjs2'
   },
   externals: nodeExternals({

@@ -49,7 +49,8 @@ module.exports = {
           {
             loader: "url-loader",
             options: {
-              limit: 4096
+              limit: 4096,
+              name: 'img/[name].[hash:7].[ext]'
             }
           }
         ]
@@ -59,7 +60,7 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
-      filename: "common.[chunkhash].css"
+      filename: "css/[name].[hash:7].css"
     })
   ]
 };

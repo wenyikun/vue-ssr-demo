@@ -26,31 +26,6 @@ const watch = compiler => {
   })
 }
 
-const run = compiler => {
-  return new Promise((resolve, reject) => {
-    compiler.run((err, stats) => {
-      console.log(
-        stats.toString({
-          colors: true,
-          modules: false,
-          children: false,
-          chunks: false,
-          chunkModules: false
-        }) + '\n\n'
-      )
-      resolve()
-    })
-  })
-}
-
-if (process.env.NODE_ENV === 'production1') {
-  del.sync(['dist'])
-  run(clientCompiler).then(() => {
-    process.env.NODE_ENV = ''
-    run(serverCompiler)
-  })
-} else {
-  Promise.all([watch(clientCompiler), watch(serverCompiler)]).then(() => {
-    require('../server')
-  })
-}
+Promise.all([watch(clientCompiler), watch(serverCompiler)]).then(() => {
+  require('../server')
+})

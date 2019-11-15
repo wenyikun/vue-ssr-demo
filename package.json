@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "node build/build.js",
     "start": "node ./server.js",
-    "build": "cross-env NODE_ENV=production1 node build/build.js"
+    "build:client": "cross-env NODE_ENV=production webpack --config ./build/webpack.client.config.js",
+    "build:server": "webpack --config ./build/webpack.server.config.js",
+    "build": "npm run build:client && npm run build:server"
   },
   "author": "",
   "license": "ISC",
