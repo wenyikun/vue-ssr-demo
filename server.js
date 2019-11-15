@@ -27,5 +27,5 @@ app.get('*', (req, res) => {
 })
 
 app.listen(8080, () => {
-  console.log('启动8080')
+  console.log('\x1B[32m%s\x1B[39m', 'app listening on port 8080!');
 })

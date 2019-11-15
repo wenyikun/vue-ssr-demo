@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const merge = require('webpack-merge')
 const base = require('./webpack.base.config')
 const path = require('path')
@@ -7,7 +8,7 @@ const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 
 module.exports = merge(base, {
   entry: {
-    client: path.resolve(__dirname, '../src/entry-client.js')
+    client: ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000', path.resolve(__dirname, '../src/entry-client.js')]
   },
   output: {
     filename: "js/[name].[hash:7].js",
@@ -44,6 +45,7 @@ module.exports = merge(base, {
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: [path.resolve(__dirname, '../dist/client')]
     }),
-    new VueSSRClientPlugin()
+    new VueSSRClientPlugin(),
+    new webpack.HotModuleReplacementPlugin()
   ]
 })
