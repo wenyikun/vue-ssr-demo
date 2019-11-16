@@ -44,13 +44,24 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|jpg|gif)$/i,
+        test: /\.(png|jpg|gif|svg)$/i,
         use: [
           {
             loader: "url-loader",
             options: {
               limit: 4096,
               name: 'img/[name].[hash:7].[ext]'
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(ttf|woff|woff2)$/i,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              name: 'fonts/[name].[hash:7].[ext]'
             }
           }
         ]
