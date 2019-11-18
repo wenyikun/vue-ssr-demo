@@ -3,42 +3,67 @@ const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const clientConfig = require('./webpack.client.config')
-const serverCompiler = webpack(require('./webpack.server.config'))
+const serverConfig = require('./webpack.server.config')
+const serverCompiler = webpack(serverConfig)
 const { createBundleRenderer } = require('vue-server-renderer')
 const fs = require('fs')
+const MFS = require('memory-fs')
 const path = require('path')
 
 const app = express()
+
 clientConfig.entry.client = [
   'webpack-hot-middleware/client',
   clientConfig.entry.client
 ]
 clientConfig.plugins.push(new webpack.HotModuleReplacementPlugin())
 const clientCompiler = webpack(clientConfig)
-const instance = webpackDevMiddleware(clientCompiler, {
+const devMiddleware = webpackDevMiddleware(clientCompiler, {
   serverSideRender: true,
-  noInfo: true
+  logLevel: 'error'
 })
-app.use(instance)
+app.use(devMiddleware)
 app.use(webpackHotMiddleware(clientCompiler))
-serverCompiler.run()
-// const watch = compiler => {
-//   return new Promise((resolve, reject) => {
-//     compiler.watch({ aggregateTimeout: 300, poll: 1000 }, (err, stats) => {
-//       console.log(
-//         stats.toString({
-//           colors: true,
-//           modules: false,
-//           children: false,
-//           chunks: false,
-//           chunkModules: false
-//         }) + '\n\n'
-//       )
-//       resolve()
-//     })
-//   })
-// }
-// watch(serverCompiler)
+let clientManifest = null
+const clientPromise = () => {
+  return new Promise(resolve => {
+    clientCompiler.hooks.done.tap('plugin', compiler => {
+      clientManifest = JSON.parse(
+        devMiddleware.fileSystem.readFileSync(
+          path.resolve(
+            clientConfig.output.path,
+            './vue-ssr-client-manifest.json'
+          ),
+          'utf-8'
+        )
+      )
+      resolve()
+    })
+  })
+}
+
+const mfs = new MFS()
+serverCompiler.outputFileSystem = mfs
+let serverBundle = null
+const serverPromise = () => {
+  return new Promise(resolve => {
+    serverCompiler.watch(
+      { aggregateTimeout: 300, poll: 1000 },
+      (err, stats) => {
+        serverBundle = JSON.parse(
+          mfs.readFileSync(
+            path.resolve(
+              serverConfig.output.path,
+              './vue-ssr-server-bundle.json'
+            ),
+            'utf-8'
+          )
+        )
+        resolve()
+      }
+    )
+  })
+}
 
 const template = require('fs').readFileSync(
   path.resolve(__dirname, '../public/index.html'),
@@ -47,11 +72,6 @@ const template = require('fs').readFileSync(
 
 app.get('*', (req, res) => {
   const context = { url: req.url }
-  const serverBundle = require('../dist/server/vue-ssr-server-bundle.json')
-  const fs = res.locals.fs
-  const outputPath = res.locals.webpackStats.toJson().outputPath
-  const manifest = fs.readFileSync(outputPath + '/vue-ssr-client-manifest.json')
-  const clientManifest = JSON.parse(manifest.toString())
   const renderer = createBundleRenderer(serverBundle, {
     runInNewContext: false,
     template,
@@ -62,6 +82,8 @@ app.get('*', (req, res) => {
   })
 })
 
-app.listen(3000, () => {
-  console.log('\x1B[32m%s\x1B[39m', 'app listening on port 3000!')
+Promise.all([clientPromise(), serverPromise()]).then(() => {
+  app.listen(3000, () => {
+    console.log('\x1B[32m%s\x1B[39m', 'app listening on port 3000!')
+  })
 })
