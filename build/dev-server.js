@@ -2,15 +2,22 @@ const express = require('express')
 const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
-const clientCompiler = webpack(require('./webpack.client.config'))
+const clientConfig = require('./webpack.client.config')
 const serverCompiler = webpack(require('./webpack.server.config'))
 const { createBundleRenderer } = require('vue-server-renderer')
 const fs = require('fs')
 const path = require('path')
 
 const app = express()
+clientConfig.entry.client = [
+  'webpack-hot-middleware/client',
+  clientConfig.entry.client
+]
+clientConfig.plugins.push(new webpack.HotModuleReplacementPlugin())
+const clientCompiler = webpack(clientConfig)
 const instance = webpackDevMiddleware(clientCompiler, {
-  serverSideRender: true
+  serverSideRender: true,
+  noInfo: true
 })
 app.use(instance)
 app.use(webpackHotMiddleware(clientCompiler))

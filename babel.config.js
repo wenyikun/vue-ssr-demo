@@ -1,4 +1,15 @@
 module.exports = {
-  presets: ['@babel/preset-env'],
-  plugins: ['@babel/transform-runtime', '@babel/plugin-syntax-dynamic-import']
+  presets: ['@vue/app'],
+  plugins: [
+    '@babel/plugin-syntax-dynamic-import',
+    [
+      'import',
+      {
+        libraryName: 'vant',
+        libraryDirectory: 'es',
+        style: true
+      },
+      'vant'
+    ]
+  ]
 }

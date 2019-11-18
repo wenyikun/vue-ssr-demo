@@ -8,41 +8,11 @@ const VueSSRClientPlugin = require("vue-server-renderer/client-plugin");
 
 module.exports = merge(base, {
   entry: {
-    client:
-      process.env.NODE_ENV === "production"
-        ? path.resolve(__dirname, "../src/entry-client.js")
-        : [
-            "webpack-hot-middleware/client",
-            path.resolve(__dirname, "../src/entry-client.js")
-          ]
+    client: path.resolve(__dirname, "../src/entry-client.js")
   },
   output: {
     filename: "js/[name].[hash:7].js",
     path: path.resolve(__dirname, "../dist/client")
-  },
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        vendors: {
-          name: "chunk-vendors",
-          test: /[\\\/]node_modules[\\\/]/,
-          priority: -10,
-          chunks: "initial"
-        },
-        common: {
-          name: "chunk-common",
-          priority: -20,
-          chunks: "all",
-          reuseExistingChunk: true
-        },
-        styles: {
-          name: "styles",
-          test: /\.css$/,
-          chunks: "all",
-          enforce: true
-        }
-      }
-    }
   },
   plugins: [
     // new HtmlWebpackPlugin({
@@ -51,7 +21,6 @@ module.exports = merge(base, {
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: [path.resolve(__dirname, "../dist/client")]
     }),
-    new VueSSRClientPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new VueSSRClientPlugin()
   ]
 });
