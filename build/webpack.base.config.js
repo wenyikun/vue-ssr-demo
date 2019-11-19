@@ -15,24 +15,6 @@ module.exports = {
       "@": path.resolve(__dirname, "../src/")
     }
   },
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        vendors: {
-          name: "chunk-vendors",
-          test: /[\\\/]node_modules[\\\/]/,
-          priority: -10,
-          chunks: "initial"
-        },
-        common: {
-          name: "chunk-common",
-          priority: -20,
-          chunks: "all",
-          reuseExistingChunk: true
-        }
-      }
-    }
-  },
   module: {
     rules: [
       {

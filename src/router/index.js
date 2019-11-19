@@ -9,11 +9,14 @@ export default () => {
     routes: [
       {
         path: '/',
-        component: () => import('@/views/home.vue')
+        component: () => import('@/views/css/index.vue')
       },
       {
-        path: '/test',
-        component: () => import('@/views/test.vue')
+        path: '/css',
+        component: () => import('@/views/css/index.vue'),
+        children: [
+          { path: 'content', component: () => import('@/views/css/content.vue') }
+        ]
       }
     ]
   })
