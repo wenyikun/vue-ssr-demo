@@ -3,55 +3,13 @@
     <div class="menu">
       <h1 class="title">
         <img class="logo" src="@/assets/logo.svg" alt="一个燚的网站" />
-        <span>标题标题</span>
+        <span>{{ css.title }}</span>
       </h1>
-      <div class="item">
-        <h2>二级标题二级标题</h2>
-        <ul class="list">
-          <li>小标题小标题小标题小标题</li>
-          <li>小标题小标题小标题小标题</li>
-          <li>小标题小标题小标题小标题</li>
-          <li>小标题小标题小标题小标题</li>
-          <li>小标题小标题小标题小标题</li>
-          <li>小标题小标题小标题小标题</li>
-        </ul>
-      </div>
-      <div class="item">
-        <h2>二级标题二级标题</h2>
-        <ul class="list">
-          <li>小标题小标题小标题小标题</li>
-          <li>小标题小标题小标题小标题</li>
-          <li>小标题小标题小标题小标题</li>
-          <li>小标题小标题小标题小标题</li>
-          <li>小标题小标题小标题小标题</li>
-          <li>
-            小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题
-          </li>
-        </ul>
-      </div>
-      <div class="item">
-        <h2>二级标题二级标题</h2>
-        <ul class="list">
-          <li>小标题小标题小标题小标题</li>
-          <li>小标题小标题小标题小标题</li>
-          <li>小标题小标题小标题小标题</li>
-          <li>小标题小标题小标题小标题</li>
-          <li>小标题小标题小标题小标题</li>
-          <li>
-            小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题
-          </li>
-        </ul>
-      </div>
-      <div class="item">
-        <h2>二级标题二级标题</h2>
-        <ul class="list">
-          <li>小标题小标题小标题小标题</li>
-          <li>小标题小标题小标题小标题</li>
-          <li>小标题小标题小标题小标题</li>
-          <li>小标题小标题小标题小标题</li>
-          <li>小标题小标题小标题小标题</li>
-          <li>
-            小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题小标题
+      <div class="item" v-for="(item, key) in cssData" :key="key">
+        <h2>{{ key }}</h2>
+        <ul class="list" v-for="(list, index) in item" :key="index">
+          <li :class="{ active: currentPath === css.path + '/' + list.path }">
+            <router-link :to="css.path + '/' + list.path">{{ list.title }}</router-link>
           </li>
         </ul>
       </div>
@@ -63,26 +21,55 @@
 </template>
 
 <script>
+import css from '@/router/css.js'
+
 export default {
+  data() {
+    return {
+      css,
+      currentPath: ''
+    }
+  },
+  computed: {
+    cssData() {
+      const cssData = {}
+      this.css.children.forEach(item => {
+        if (cssData[item.parentTitle]) {
+          cssData[item.parentTitle].push(item)
+        } else {
+          cssData[item.parentTitle] = [item]
+        }
+      })
+      return cssData
+    }
+  },
+  mounted () {
+    this.currentPath = this.$route.path
+  },
+  watch: {
+    $route(to, from) {
+      this.currentPath = to.path
+    }
+  }
 }
 </script>
 
 <style>
 :root {
-  --scroll-write: 5px;
+  --scroll-width: 5px;
 }
 ::-webkit-scrollbar {
-  width: var(--scroll-write);
+  width: var(--scroll-width);
   height: 1px;
 }
 ::-webkit-scrollbar-thumb {
-  border-radius: var(--scroll-write);
+  border-radius: var(--scroll-width);
   -webkit-box-shadow: inset 0 0 5px #999;
   background: #d8d8d8;
 }
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 5px #999;
-  border-radius: var(--scroll-write);
+  border-radius: var(--scroll-width);
 }
 .wrap {
   display: flex;
@@ -107,7 +94,7 @@ export default {
   height: 40px;
 }
 .title span {
-  margin: auto;
+  margin: auto 10px;
 }
 .item {
   box-sizing: border-box;
@@ -122,9 +109,19 @@ export default {
   padding-left: 10px;
   list-style: none;
   font-size: 14px;
-  color: #505d6b;
 }
 .list li {
-  margin: 5px 0;
+  padding: 5px 0;
+}
+.list a {
+  color: #505d6b;
+  text-decoration: none;
+}
+.list a:hover {
+  color: #3eaf7c;
+}
+.list .active a {
+  color: #3eaf7c;
+  font-weight: bold;
 }
 </style>

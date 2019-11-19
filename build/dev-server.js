@@ -16,7 +16,9 @@ clientConfig.entry.client = [
   'webpack-hot-middleware/client',
   clientConfig.entry.client
 ]
-clientConfig.plugins.push(new webpack.HotModuleReplacementPlugin())
+clientConfig.plugins.push(
+  new webpack.HotModuleReplacementPlugin({ multiStep: true })
+)
 const clientCompiler = webpack(clientConfig)
 const devMiddleware = webpackDevMiddleware(clientCompiler, {
   serverSideRender: true,
