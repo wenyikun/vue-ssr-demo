@@ -2,19 +2,19 @@ export default {
   title: 'CSS技巧',
   path: '/css',
   component: () => import('@/views/css/index.vue'),
-  redirect: '/css/layout',
+  redirect: '/css/what-is-fliter',
   children: [
     {
-      parentTitle: '布局',
-      path: 'layout',
-      component: () => import('@/views/css/content.vue'),
-      title: '圣杯布局'
+      parentTitle: '滤镜(fliter)',
+      path: 'what-is-fliter',
+      component: () => import('@/views/css/what-is-fliter.vue'),
+      title: 'fliter是什么'
     },
     {
-      parentTitle: '边框',
-      path: 'border',
-      component: () => import('@/views/css/content.vue'),
-      title: '边框实现方法'
+      parentTitle: '滤镜(fliter)',
+      path: 'fliter-gradient',
+      component: () => import('@/views/css/fliter-gradient.vue'),
+      title: 'fliter设置渐变背景'
     }
   ]
 }
