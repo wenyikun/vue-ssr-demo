@@ -4,6 +4,7 @@ import createRouter from './router'
 import createStore from './store'
 import { sync } from 'vuex-router-sync'
 import 'normalize.css'
+import '@/styles/public.css'
 
 export function createApp() {
   const router = createRouter()

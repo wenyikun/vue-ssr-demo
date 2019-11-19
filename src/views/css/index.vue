@@ -7,8 +7,8 @@
       </h1>
       <div class="item" v-for="(item, key) in cssData" :key="key">
         <h2>{{ key }}</h2>
-        <ul class="list" v-for="(list, index) in item" :key="index">
-          <li :class="{ active: currentPath === css.path + '/' + list.path }">
+        <ul class="list">
+          <li v-for="(list, index) in item" :key="index" :class="{ active: currentPath === css.path + '/' + list.path }">
             <router-link :to="css.path + '/' + list.path">{{ list.title }}</router-link>
           </li>
         </ul>
@@ -54,23 +54,7 @@ export default {
 }
 </script>
 
-<style>
-:root {
-  --scroll-width: 5px;
-}
-::-webkit-scrollbar {
-  width: var(--scroll-width);
-  height: 1px;
-}
-::-webkit-scrollbar-thumb {
-  border-radius: var(--scroll-width);
-  -webkit-box-shadow: inset 0 0 5px #999;
-  background: #d8d8d8;
-}
-::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 5px #999;
-  border-radius: var(--scroll-width);
-}
+<style scoped>
 .wrap {
   display: flex;
 }
@@ -84,7 +68,7 @@ export default {
 }
 .title {
   margin: 0;
-  padding: 10px;
+  padding: 20px 10px;
   display: flex;
   color: #333;
   font-size: 20px;
@@ -123,5 +107,9 @@ export default {
 .list .active a {
   color: #3eaf7c;
   font-weight: bold;
+}
+.content {
+  height: 100vh;
+  overflow-y: auto;
 }
 </style>

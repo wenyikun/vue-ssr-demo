@@ -10,6 +10,7 @@ export default () => {
     routes: [
       {
         path: '/',
+        redirect: '/css/what-is-fliter',
         component: () => import('@/views/css/index.vue')
       },
       css

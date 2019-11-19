@@ -1,21 +1,50 @@
 <template>
   <div class="content-wrap">
+    <h3>fliter是什么</h3>
+    <p>filter CSS属性将模糊或颜色偏移等图形效果应用于元素。滤镜通常用于调整图像，背景和边框的渲染。</p>
     <iframe
       width="100%"
-      height="300"
+      height="400"
       src="//jsrun.pro/9eWKp/embedded/all/dark"
       allowfullscreen="allowfullscreen"
       frameborder="0"
     ></iframe>
+    <table>
+      <tr>
+        <th>Filter</th>
+        <th>描述</th>
+        <th>默认值</th>
+      </tr>
+      <tr>
+        <td>none</td>
+        <td>默认值，没有效果。</td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>blur(px)</td>
+        <td>给图像设置高斯模糊。"radius"一值设定高斯函数的标准差，或者是屏幕上以多少像素融在一起， 所以值越大越模糊。</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>brightness(%)</td>
+        <td>给图片应用一种线性乘法，使其看起来更亮或更暗。值小于100%，图像会比原来更暗；值也可以大于100%，图像会比原来更亮。</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>contrast(%)</td>
+        <td>调整图像的对比度。值越大，对比度更低。</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>drop-shadow(h-shadow v-shadow blur spread color)</td>
+        <td>给图像设置一个阴影效果。与box-shadow属性设置方式相同。</td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td>grayscale(%)</td>
+        <td>将图像转换为灰度图像。取值0到100%。</td>
+        <td>0</td>
+      </tr>
+    </table>
   </div>
 </template>
-
-<script>
-export default {}
-</script>
-
-<style>
-.content-wrap {
-  padding: 10px;
-}
-</style>
